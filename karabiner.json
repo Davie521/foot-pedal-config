@@ -31,14 +31,6 @@
                 {
                     "identifiers": {
                         "is_keyboard": true,
-                        "product_id": 785,
-                        "vendor_id": 13364
-                    },
-                    "ignore": true
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
                         "is_pointing_device": true,
                         "product_id": 21,
                         "vendor_id": 32904

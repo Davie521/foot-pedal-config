@@ -1,4 +1,4 @@
-require("hs.ipc")
+require("hs.ipc") -- enables `hs` CLI for remote reload
 
 -------------------------------------------------------
 -- F19 foot pedal: tap → Enter, hold → Mouse Button 4
@@ -13,7 +13,7 @@ require("hs.ipc")
 -------------------------------------------------------
 local HOLD_THRESHOLD = 0.225 -- seconds before activating PTT
 local MAX_HOLD = 120         -- seconds: safety auto-release
-local F19_KEYCODE = 80
+local F19_KEYCODE = 80       -- macOS virtual keycode for F19
 local MOUSE_BUTTON = 3       -- 0-indexed: button4
 local PTT_KEEPALIVE = 0.5    -- seconds: re-send interval
 

@@ -48,7 +48,7 @@ if [ -f "$SCRIPT_DIR/karabiner.json" ] && [ -f "$SCRIPT_DIR/init.lua" ]; then
 else
     # If running via curl pipe, download files
     CONFIG_DIR="$(mktemp -d)"
-    trap "rm -rf $CONFIG_DIR" EXIT
+    trap 'rm -rf "$CONFIG_DIR"' EXIT
     REPO="Davie521/foot-pedal-config"
     warn "Downloading config files..."
     curl -sL "https://raw.githubusercontent.com/$REPO/main/karabiner.json" -o "$CONFIG_DIR/karabiner.json"
@@ -63,6 +63,8 @@ mkdir -p "$KARABINER_DIR"
 if [ -f "$KARABINER_DIR/karabiner.json" ]; then
     cp "$KARABINER_DIR/karabiner.json" "$KARABINER_DIR/karabiner.json.bak"
     warn "Backed up existing karabiner.json → karabiner.json.bak"
+    warn "NOTE: This REPLACES your entire Karabiner config."
+    warn "If you have other rules, merge manually from the .bak file."
 fi
 
 cp "$CONFIG_DIR/karabiner.json" "$KARABINER_DIR/karabiner.json"
