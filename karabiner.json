@@ -1,0 +1,54 @@
+{
+    "global": { "show_in_menu_bar": false },
+    "profiles": [
+        {
+            "complex_modifications": {
+                "rules": [
+                    {
+                        "description": "LinTx Keyboard: F4 to F19 (handled by Hammerspoon)",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": { "key_code": "f4" },
+                                "to": [{ "key_code": "f19" }],
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 21,
+                                                "vendor_id": 32904
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "devices": [
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 785,
+                        "vendor_id": 13364
+                    },
+                    "ignore": true
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 21,
+                        "vendor_id": 32904
+                    },
+                    "ignore": false
+                }
+            ],
+            "name": "Default",
+            "selected": true,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+        }
+    ]
+}
