@@ -112,9 +112,18 @@ F19Watchdog = hs.timer.doEvery(5, function()
     end
 end)
 
+-- GLOBAL: reload config after wake from sleep to prevent stale eventtap state
+F19SleepWatcher = hs.caffeinate.watcher.new(function(event)
+    if event == hs.caffeinate.watcher.systemDidWake then
+        hs.printf("WAKE: reloading config to reset eventtap state")
+        hs.timer.doAfter(2, hs.reload)
+    end
+end):start()
+
 hs.shutdownCallback = function()
     cleanup()
     if F19Watchdog then F19Watchdog:stop() end
+    if F19SleepWatcher then F19SleepWatcher:stop() end
 end
 
 hs.alert.show("Foot pedal ready")
