@@ -144,6 +144,7 @@ cp init.lua ~/.hammerspoon/init.lua
 | Hammerspoon reload 时 PTT 卡住 | `hs.shutdownCallback → cleanup()` |
 | keyUp 丢失 | 120s 安全阀自动 `cleanup()` |
 | eventtap 被 macOS 禁用 | 5s watchdog 自动重启 |
+| 睡眠/锁屏后 eventtap 或 timer 僵尸 | 自动 reload（覆盖系统唤醒、屏幕唤醒、解锁、用户切换） |
 
 ## 阈值校准
 
@@ -162,12 +163,13 @@ cp init.lua ~/.hammerspoon/init.lua
 | 踏板完全无反应 | Karabiner 未运行 | 检查菜单栏图标 |
 | 终端收到 `[57382u` 乱码 | F19 未被 Hammerspoon 拦截 | Reload Config；检查辅助功能权限 |
 | 短踩无 Enter | Hammerspoon 配置未加载 | Reload Config |
-| PTT 1-2 秒后中断 | 缺少 keep-alive 机制 | 确认使用最新 init.lua |
+| PTT 1-2 秒后中断 | 缺少 keep-alive 或睡眠/锁屏后状态僵尸 | 确认使用最新 init.lua；手动 Reload Config 立即恢复 |
 | PTT 卡住不释放 | keyUp 丢失 | 等 120s 安全阀；或再踩一次 |
 
 ## 版本历史
 
 | 日期 | 变更 |
 |------|------|
+| 2026-03-21 | 扩展生命周期 reload：覆盖屏幕唤醒、解锁、用户切换，修复睡眠/锁屏后 PTT 1 秒断开 |
 | 2026-03-13 | 从 Right Control 切换到 Mouse Button 4；新增 keep-alive 解决合成事件状态不持久问题 |
 | 2026-03-09 | 初始版本：F4 → F19 → Right Control/Enter |
