@@ -112,11 +112,24 @@ F19Watchdog = hs.timer.doEvery(5, function()
     end
 end)
 
--- GLOBAL: reload config after wake from sleep to prevent stale eventtap state
+-- GLOBAL: full reload on system state changes that can zombify eventtaps/timers.
+-- Covers: system sleep, display sleep, screen lock, fast user switching.
+-- Multiple rapid events naturally debounce: first hs.reload() destroys all
+-- pending timers, so only one reload actually happens.
 F19SleepWatcher = hs.caffeinate.watcher.new(function(event)
-    if event == hs.caffeinate.watcher.systemDidWake then
-        hs.printf("WAKE: reloading config to reset eventtap state")
-        hs.timer.doAfter(2, hs.reload)
+    local reloadEvents = {
+        [hs.caffeinate.watcher.systemDidWake]          = "systemDidWake",
+        [hs.caffeinate.watcher.screensDidWake]         = "screensDidWake",
+        [hs.caffeinate.watcher.sessionDidBecomeActive] = "sessionDidBecomeActive",
+        [hs.caffeinate.watcher.screensDidUnlock]       = "screensDidUnlock",
+    }
+    local name = reloadEvents[event]
+    if name then
+        hs.printf("LIFECYCLE [%s]: scheduling reload in 2s", name)
+        hs.timer.doAfter(2, function()
+            cleanup()
+            hs.reload()
+        end)
     end
 end):start()
 
